@@ -8,7 +8,7 @@ VERSION = 7.0.0
 
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
-ENVIRONMENT = "development"
+ENVIRONMENT = "production"
 
 DEFINES += APP_ENVIRONMENT=\\\"$$ENVIRONMENT\\\"
 

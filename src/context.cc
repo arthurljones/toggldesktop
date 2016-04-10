@@ -76,7 +76,7 @@ Context::Context(const std::string app_name, const std::string app_version)
 , idle_(&ui_)
 , last_sync_started_(0)
 , sync_interval_seconds_(0)
-, update_check_disabled_(false)
+, update_check_disabled_(true)
 , quit_(false)
 , ui_updater_(this, &Context::uiUpdaterActivity)
 , reminder_(this, &Context::reminderActivity)
@@ -88,8 +88,8 @@ Context::Context(const std::string app_name, const std::string app_version)
         Poco::Net::HTTPSStreamFactory::registerFactory();
     }
 
-    urls::SetUseStagingAsBackend(
-        app_version.find("7.0.0") != std::string::npos);
+    //urls::SetUseStagingAsBackend(
+    //    app_version.find("7.0.0") != std::string::npos);
 
     Poco::ErrorHandler::set(&error_handler_);
     Poco::Net::initializeSSL();
