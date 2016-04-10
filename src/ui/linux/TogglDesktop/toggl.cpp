@@ -76,7 +76,8 @@ void on_display_reminder(
 
 void on_display_time_entry_list(
     const bool_t open,
-    TogglTimeEntryView *first) {
+    TogglTimeEntryView *first,
+    const bool_t show_load_more_button ) {
     TogglApi::instance->displayTimeEntryList(
         open,
         TimeEntryView::importAll(first));
@@ -437,7 +438,8 @@ QString TogglApi::start(
                              task_id,
                              project_id,
                              0 /* project guid */,
-                             0 /* tags */);
+                             0 /* tags */,
+                             false /* prevent_on_app */);
     QString res("");
     if (guid) {
         res = QString(guid);
@@ -447,7 +449,7 @@ QString TogglApi::start(
 }
 
 bool TogglApi::stop() {
-    return toggl_stop(ctx);
+    return toggl_stop(ctx, false);
 }
 
 const QString TogglApi::formatDurationInSecondsHHMMSS(
@@ -463,7 +465,7 @@ bool TogglApi::continueTimeEntry(const QString guid) {
 }
 
 bool TogglApi::continueLatestTimeEntry() {
-    return toggl_continue_latest(ctx);
+    return toggl_continue_latest(ctx, false);
 }
 
 void TogglApi::sync() {
