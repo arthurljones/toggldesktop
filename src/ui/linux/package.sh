@@ -21,15 +21,16 @@ cp src/ui/linux/README $out/.
 cp third_party/bugsnag-qt/build/release/libbugsnag-qt.so.1 $out/lib
 
 # Copy Poco libraries
-cp third_party/poco/lib/Linux/x86_64/libPocoCrypto.so.31 $out/lib
-cp third_party/poco/lib/Linux/x86_64/libPocoData.so.31 $out/lib
-cp third_party/poco/lib/Linux/x86_64/libPocoDataSQLite.so.31 $out/lib
-cp third_party/poco/lib/Linux/x86_64/libPocoFoundation.so.31 $out/lib
-cp third_party/poco/lib/Linux/x86_64/libPocoJSON.so.31 $out/lib
-cp third_party/poco/lib/Linux/x86_64/libPocoNet.so.31 $out/lib
-cp third_party/poco/lib/Linux/x86_64/libPocoNetSSL.so.31 $out/lib
-cp third_party/poco/lib/Linux/x86_64/libPocoUtil.so.31 $out/lib
-cp third_party/poco/lib/Linux/x86_64/libPocoXML.so.31 $out/lib
+poco_libs=$(echo "third_party/poco/lib/Linux/*" | head -n 1)
+cp $poco_libs/libPocoCrypto.so.31 $out/lib
+cp $poco_libs/libPocoData.so.31 $out/lib
+cp $poco_libs/libPocoDataSQLite.so.31 $out/lib
+cp $poco_libs/libPocoFoundation.so.31 $out/lib
+cp $poco_libs/libPocoJSON.so.31 $out/lib
+cp $poco_libs/libPocoNet.so.31 $out/lib
+cp $poco_libs/libPocoNetSSL.so.31 $out/lib
+cp $poco_libs/libPocoUtil.so.31 $out/lib
+cp $poco_libs/libPocoXML.so.31 $out/lib
 
 # Copy executable
 cp src/ui/linux/TogglDesktop/build/release/TogglDesktop $out
@@ -38,33 +39,41 @@ cp src/ui/linux/TogglDesktop/build/release/TogglDesktop $out
 cp src/ui/linux/TogglDesktop.sh $out
 
 # Copy Qt libraries
-cp $QLIBPATH/libQt5Svg.so.5 $out/lib
-cp $QLIBPATH/libQt5Xml.so.5 $out/lib
-cp $QLIBPATH/libQt5XcbQpa.so.5 $out/lib
-cp $QLIBPATH/libQt5XcbQpa.so.5 $out/lib
-cp $QLIBPATH/libQt5WebKitWidgets.so.5 $out/lib
-cp $QLIBPATH/libQt5DBus.so.5 $out/lib
-cp $QLIBPATH/libQt5Widgets.so.5 $out/lib
-cp $QLIBPATH/libQt5Gui.so.5 $out/lib
-cp $QLIBPATH/libQt5Network.so.5 $out/lib
-cp $QLIBPATH/libQt5Core.so.5 $out/lib
-cp $QLIBPATH/libQt5WebKit.so.5 $out/lib
-cp $QLIBPATH/libQt5Sensors.so.5 $out/lib
-cp $QLIBPATH/libQt5Positioning.so.5 $out/lib
-cp $QLIBPATH/libQt5PrintSupport.so.5 $out/lib
-cp $QLIBPATH/libQt5OpenGL.so.5 $out/lib
-cp $QLIBPATH/libQt5Sql.so.5 $out/lib
-cp $QLIBPATH/libicui18n.so.54 $out/lib
-cp $QLIBPATH/libicuuc.so.54 $out/lib
-cp $QLIBPATH/libicudata.so.54 $out/lib
-cp $QLIBPATH/libQt5Quick.so.5 $out/lib
-cp $QLIBPATH/libQt5Qml.so.5 $out/lib
-cp $QLIBPATH/libQt5WebChannel.so.5 $out/lib
+if [[ -n "$QLIBPATH" ]]; then
+    cp $QLIBPATH/libQt5Svg.so.5 $out/lib
+    cp $QLIBPATH/libQt5Xml.so.5 $out/lib
+    cp $QLIBPATH/libQt5XcbQpa.so.5 $out/lib
+    cp $QLIBPATH/libQt5XcbQpa.so.5 $out/lib
+    cp $QLIBPATH/libQt5WebKitWidgets.so.5 $out/lib
+    cp $QLIBPATH/libQt5DBus.so.5 $out/lib
+    cp $QLIBPATH/libQt5Widgets.so.5 $out/lib
+    cp $QLIBPATH/libQt5Gui.so.5 $out/lib
+    cp $QLIBPATH/libQt5Network.so.5 $out/lib
+    cp $QLIBPATH/libQt5Core.so.5 $out/lib
+    cp $QLIBPATH/libQt5WebKit.so.5 $out/lib
+    cp $QLIBPATH/libQt5Sensors.so.5 $out/lib
+    cp $QLIBPATH/libQt5Positioning.so.5 $out/lib
+    cp $QLIBPATH/libQt5PrintSupport.so.5 $out/lib
+    cp $QLIBPATH/libQt5OpenGL.so.5 $out/lib
+    cp $QLIBPATH/libQt5Sql.so.5 $out/lib
+    cp $QLIBPATH/libicui18n.so.54 $out/lib
+    cp $QLIBPATH/libicuuc.so.54 $out/lib
+    cp $QLIBPATH/libicudata.so.54 $out/lib
+    cp $QLIBPATH/libQt5Quick.so.5 $out/lib
+    cp $QLIBPATH/libQt5Qml.so.5 $out/lib
+    cp $QLIBPATH/libQt5WebChannel.so.5 $out/lib
+else
+    echo "\$QLIBPATH unset, not copying QT libs"
+fi
 
 # Copy Qt plugins
-cp $QPATH/plugins/imageformats/libqsvg.so $out/imageformats
-cp $QPATH/plugins/iconengines/libqsvgicon.so $out/iconengines
-cp $QPATH/plugins/platforms/libqxcb.so $out/platforms
+if [[ -n "$QPATH" ]]; then
+    cp $QPATH/plugins/imageformats/libqsvg.so $out/imageformats
+    cp $QPATH/plugins/iconengines/libqsvgicon.so $out/iconengines
+    cp $QPATH/plugins/platforms/libqxcb.so $out/platforms
+else
+    echo "\$QPATH unset, not copying plugins"
+fi
 
 # Copy icons
 cp -r src/ui/linux/TogglDesktop/icons $out/icons
